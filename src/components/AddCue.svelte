@@ -20,20 +20,16 @@
             addCue(
                 startTime,
                 endTime,
-                `Subtitle from ${startTime.toFixed(2)}s to ${endTime.toFixed(2)}s`,
+                `Cue from ${startTime.toFixed(2)}s to ${endTime.toFixed(2)}s`,
             );
         }
 
         isRecording = !isRecording;
     };
 
-    const buttonLabel = () => {
-        return isRecording ? "Stop Recording" : "Start Recording";
-    };
+    const buttonLabel = () => (isRecording ? "End Cue" : "Start Cue");
 
-    const buttonClass = () => {
-        return isRecording ? "recording" : "";
-    };
+    const buttonClass = () => (isRecording ? "recording" : "");
 </script>
 
 <button id="cue-toggle" class={buttonClass()} on:click={toggleRecording}

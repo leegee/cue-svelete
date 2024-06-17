@@ -101,8 +101,7 @@
 {/if}
 
 {#if $timeline.currentCueIndex !== -1}
-    <!-- Display subtitle or other content based on current event -->
-    <div class="subtitle-container">
+    <div class="cue-container">
         <p>
             {$timeline.cues[$timeline.currentCueIndex].content}
         </p>
@@ -110,7 +109,7 @@
 {/if}
 
 <style>
-    .subtitle-container {
+    .cue-container {
         position: absolute;
         bottom: 20px;
         left: 50%;

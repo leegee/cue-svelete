@@ -7,8 +7,8 @@ import { writable } from 'svelte/store';
 
 const initialState = {
     cues: [
-        { start: 1, end: 3, content: 'Subtitle from 1s to 3s' },
-        { start: 4, end: 15, content: 'Subtitle from 4s to 15s' },
+        { start: 1, end: 3, content: 'Cue from 1s to 3s' },
+        { start: 4, end: 15, content: 'Cue from 4s to 15s' },
     ],
     currentCueIndex: -1,
 };
