@@ -20,3 +20,6 @@ Next:
 * Load SRT and MIDI
 * Select cue intensity as a Cubase CC track?
 
+
+
+https://www.youtube.com/watch?v=_gDJHxydwBc

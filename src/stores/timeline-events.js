@@ -10,3 +10,15 @@ const initialState = {
 };
 
 export const timelineEvents = writable( initialState );
+
+export function addEvent ( start, end, content ) {
+    timelineEvents.update( events => ( {
+        ...events,
+        events: [
+            ...events.events,
+            { start, end, content }
+        ]
+    } ) );
+
+    localStorage.setItem( 'timelineEvents', JSON.stringify( timelineEvents ) );
+}
