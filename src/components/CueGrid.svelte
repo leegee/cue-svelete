@@ -21,21 +21,21 @@
                 {
                     headerName: "Start",
                     field: "start",
-                    sortable: true,
+                    sortable: false,
                     filter: true,
                     editable: true,
                 },
                 {
                     headerName: "End",
                     field: "end",
-                    sortable: true,
+                    sortable: false,
                     filter: true,
                     editable: true,
                 },
                 {
                     headerName: "Content",
                     field: "content",
-                    sortable: true,
+                    sortable: false,
                     filter: true,
                     editable: true,
                 },
@@ -44,7 +44,7 @@
                     field: "actions",
                 },
             ],
-            onCellValueChangedEvent: onCellValueChangedHandler,
+            onCellValueChanged: onCellValueChangedHandler,
             rowData: [],
             defaultColDef: {
                 flex: 1,
@@ -70,8 +70,26 @@
         };
     });
 
-    function onCellValueChangedHandler(...args) {
-        console.log("aha", args);
+    // Revert any change if the start and end are invalid
+    function onCellValueChangedHandler(params) {
+        let revert = false;
+        if (params.data.start >= params.data.end) {
+            alert("The start value must be smaller than the end value");
+            revert = true;
+        }
+
+        if (params.data.start < 0 || params.data.end < 0) {
+            alert("The start value must be smaller than the end value");
+            revert = true;
+        }
+
+        if (revert) {
+            params.node.setDataValue(params.column.colId, params.oldValue);
+            params.api.refreshCells({
+                rowNodes: [params.node],
+                columns: [params.column.colId],
+            });
+        }
     }
 </script>
 
