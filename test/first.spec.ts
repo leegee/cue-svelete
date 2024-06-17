@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('Recording button adds events to timeline', async ({ page }) => {
+test('Recording button adds cues to timeline', async ({ page }) => {
     await page.goto('http://localhost:5173');
 
     // Wait for the page and components to load
@@ -14,16 +14,16 @@ test('Recording button adds events to timeline', async ({ page }) => {
     // Wait for any asynchronous updates to the timeline
     await page.waitForTimeout(500);
 
-    // Assert that the timelineEvents store now has 1 event
-    const events = await page.evaluate(() => {
-        const eventsJson = localStorage.getItem('timelineEvents');
-        return JSON.parse(eventsJson!).events || [];
+    // Assert that the timeline store now has 1 cue
+    const cues = await page.evaluate(() => {
+        const cuesJson = localStorage.getItem('timeline');
+        return JSON.parse(cuesJson!).cues || [];
     });
 
-    expect(events.length).toBe(1);
+    expect(cues.length).toBe(1);
 
     // Optionally, assert more detailed properties of the event if needed
-    const event = events[0];
-    expect(event.start).toBeGreaterThan(0);
-    expect(event.end).toBeGreaterThan(event.start);
+    const cue = cues[0];
+    expect(cue.start).toBeGreaterThan(0);
+    expect(cue.end).toBeGreaterThan(cues.start);
 });

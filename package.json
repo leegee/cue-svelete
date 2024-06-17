@@ -17,6 +17,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "@ag-grid-community/core": "^31.3.2",
     "ag-grid-community": "^31.3.2",
     "ag-grid-svelte": "^0.3.0",
     "video.js": "^8.12.0",

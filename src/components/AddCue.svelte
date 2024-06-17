@@ -1,7 +1,7 @@
 <script>
     import { writable } from "svelte/store";
     import { currentTime } from "../stores/current-time";
-    import { timelineEvents, addEvent } from "../stores/timeline-events";
+    import { timeline, addCue } from "../stores/timeline";
 
     let isRecording = false;
     let startTime = null;
@@ -17,7 +17,7 @@
             endTime = $currentTime;
             console.log("Recording end time:", endTime);
 
-            addEvent(
+            addCue(
                 startTime,
                 endTime,
                 `Subtitle from ${startTime.toFixed(2)}s to ${endTime.toFixed(2)}s`,

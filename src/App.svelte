@@ -1,7 +1,7 @@
 <script>
   import VideoPlayer from "./components/Video.svelte";
   import AddCue from "./components/AddCue.svelte";
-  import Grid from "./components/EventGrid.svelte";
+  import Grid from "./components/CueGrid.svelte";
 </script>
 
 <main id="cue-app">

@@ -5,7 +5,7 @@
     import { writable } from "svelte/store";
     import videojs from "video.js";
     import { currentTime } from "../stores/current-time";
-    import { timelineEvents } from "../stores/timeline-events";
+    import { timeline } from "../stores/timeline";
 
     import "video.js/dist/video-js.css";
     import "videojs-youtube";
@@ -39,25 +39,25 @@
             const currentTimeValue = player.currentTime();
             currentTime.set(currentTimeValue);
 
-            // Check if there are events to display at the current time
-            timelineEvents.update((state) => {
-                const { events, currentEventIndex } = state;
-                let nextEventIndex = currentEventIndex + 1;
+            // Check if there are cues to display at the current time
+            timeline.update((state) => {
+                const { cues, currentCueIndex: currentEventIndex } = state;
+                let nextCueIndex = currentEventIndex + 1;
 
                 // Find the next event to display within its time interval
                 while (
-                    nextEventIndex < events.length &&
-                    currentTimeValue >= events[nextEventIndex].end
+                    nextCueIndex < cues.length &&
+                    currentTimeValue >= cues[nextCueIndex].end
                 ) {
-                    nextEventIndex++;
+                    nextCueIndex++;
                 }
 
                 // Check if there is a new event to display
                 if (
-                    nextEventIndex < events.length &&
-                    currentTimeValue >= events[nextEventIndex].start
+                    nextCueIndex < cues.length &&
+                    currentTimeValue >= cues[nextCueIndex].start
                 ) {
-                    return { ...state, currentEventIndex: nextEventIndex };
+                    return { ...state, currentCueIndex: nextCueIndex };
                 }
 
                 return state;
@@ -100,11 +100,11 @@
     </div>
 {/if}
 
-{#if $timelineEvents.currentEventIndex !== -1}
+{#if $timeline.currentCueIndex !== -1}
     <!-- Display subtitle or other content based on current event -->
     <div class="subtitle-container">
         <p>
-            {$timelineEvents.events[$timelineEvents.currentEventIndex].content}
+            {$timeline.cues[$timeline.currentCueIndex].content}
         </p>
     </div>
 {/if}
