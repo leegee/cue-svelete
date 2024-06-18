@@ -76,6 +76,8 @@
                 return { ...state, currentCueIndex: nextCueIndex };
             }
 
+            console.log(currentTimeValue, $timeline.currentCueIndex);
+
             return state;
         });
     }
@@ -107,28 +109,38 @@
     ></video>
 </div>
 
-<p class="controls-container">
+<p id="controls-container">
     <AddCue />
-    <span class="time-container">
-        Time: <span class="time-value">
+    <span id="time-container">
+        Time: <span id="time-value">
             {$currentTime.toFixed(2)}
         </span>
     </span>
 </p>
 
+{#if $timeline.currentCueIndex > -1}
+    <div id="current-cue-container">
+        <p>{$timeline.cues[$timeline.currentCueIndex].content}</p>
+    </div>
+{/if}
+
 <style>
-    .controls-container {
+    #controls-container {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
     }
 
-    .time-container {
+    #time-container {
         margin-left: 1em;
     }
 
-    .time-value {
+    #time-value {
         font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
             "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
+
+    #current-cue-container {
+        min-height: 1rem;
     }
 </style>
