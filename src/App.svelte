@@ -14,8 +14,8 @@
 </script>
 
 <main id="cue-app">
-  <h1>Vite + Svelte</h1>
   {#if !$videoUrl}
+    <h1>Spotting Cues</h1>
     <div>
       <!-- svelte-ignore a11y-autofocus -->
       <input
@@ -44,13 +44,13 @@
   }
 
   h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 300%;
+    margin-bottom: 1em;
   }
 
-  VideoPlayer,
-  AddCue,
-  Grid {
-    margin-bottom: 20px;
+  input,
+  button {
+    font-size: large;
+    padding: 1em;
   }
 </style>
