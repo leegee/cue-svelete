@@ -8,8 +8,8 @@ import { writable } from 'svelte/store';
 const initialState = {
     cues: [
         // test data until there is a loader
-        { start: 1, end: 3, content: '' },
-        { start: 4, end: 15, content: '' },
+        { start: 1, end: 3, content: 'action' },
+        { start: 4, end: 15, content: 'love' },
     ],
     currentCueIndex: -1,
 };
