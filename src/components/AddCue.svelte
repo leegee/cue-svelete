@@ -25,9 +25,9 @@
         isRecording = !isRecording;
     };
 
-    const buttonLabel = () => (isRecording ? "End Cue" : "Start Cue");
+    $: buttonLabel = () => (isRecording ? "End Cue" : "Start Cue");
 
-    const buttonClass = () => (isRecording ? "recording" : "");
+    $: buttonClass = () => (isRecording ? "recording" : "waiting");
 </script>
 
 <button id="cue-toggle" class={buttonClass()} on:click={toggleRecording}
@@ -35,8 +35,13 @@
 >
 
 <style>
+    #cue-toggle {
+        color: white;
+    }
+    .waiting {
+        background-color: green;
+    }
     .recording {
         background-color: red;
-        color: white;
     }
 </style>
