@@ -7,6 +7,7 @@
     import { currentTime } from "../stores/current-time";
     import { timeline } from "../stores/timeline";
     import { playbackState } from "../stores/playback.js";
+    import AddCue from "./AddCue.svelte";
 
     export let videoUrl;
 
@@ -106,24 +107,24 @@
     ></video>
 </div>
 
-<p class="time-container">
-    <span class="time-value">
-        Time: {$currentTime.toFixed(2)}
+<p class="controls-container">
+    <AddCue />
+    <span class="time-container">
+        Time: <span class="time-value">
+            {$currentTime.toFixed(2)}
+        </span>
     </span>
 </p>
 
-{#if $timeline.currentCueIndex !== -1}
-    <div class="cue-container">
-        <p>{$timeline.cues[$timeline.currentCueIndex].content}</p>
-    </div>
-{/if}
-
 <style>
-    .cue-container {
+    .controls-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
     }
 
     .time-container {
-        font-size: normal;
+        margin-left: 1em;
     }
 
     .time-value {

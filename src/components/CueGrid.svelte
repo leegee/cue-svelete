@@ -6,7 +6,7 @@
     import { onMount } from "svelte";
     import { createGrid } from "ag-grid-community";
 
-    import { timeline } from "../stores/timeline";
+    import { updateCue, timeline } from "../stores/timeline";
     import { currentTime } from "../stores/current-time";
     import { playbackState } from "../stores/playback.js";
 
@@ -89,18 +89,14 @@
     // Revert any change if the start and end are invalid
     function onCellValueChangedHandler(params) {
         console.log(params);
-        let revert = false;
-        if (params.data.start >= params.data.end) {
-            alert("The start value must be smaller than the end value");
-            revert = true;
-        }
-
-        if (params.data.start < 0 || params.data.end < 0) {
-            alert("The start value must be smaller than the end value");
-            revert = true;
-        }
-
-        if (revert) {
+        try {
+            updateCue(
+                params.rowIndex,
+                params.data.start,
+                params.data.end,
+                params.data.content,
+            );
+        } catch (e) {
             params.node.setDataValue(params.column.colId, params.oldValue);
             params.api.refreshCells({
                 rowNodes: [params.node],
