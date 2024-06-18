@@ -5,7 +5,7 @@ Personal project: a first try at Svelte, setting and playing cue markers.
 
 * Input: Video URL
 * Click to set cue start
-* Highlight start, then click to set cue end 
+* Store start, then click to set cue end 
 * Two selections of  cue type:
     * Tension 
     * Action
@@ -18,6 +18,13 @@ Personal project: a first try at Svelte, setting and playing cue markers.
 Next: 
 
 * Load SRT and MIDI
+
+Then:
+
+* Display cues as for NewThinkingAllowed
+
+Then:
+
 * Select cue intensity as a Cubase CC track?
 
 
