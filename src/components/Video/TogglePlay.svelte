@@ -10,9 +10,9 @@
         }));
     }
 
-    const buttonLabel = () => (playing ? "Pause" : "Play");
+    $: buttonLabel = () => (playing ? "Pause" : "Play");
 
-    const buttonClass = () => (playing ? "paused" : "playing");
+    $: buttonClass = () => (playing ? "paused" : "playing");
 </script>
 
 <button id="toggle-play" class={buttonClass()} on:click={togglePlay}>
