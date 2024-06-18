@@ -10,6 +10,8 @@
     import { currentTime } from "../stores/current-time";
     import { playbackState } from "../stores/playback.js";
 
+    import { CUE_TYPES } from "../cue-types";
+
     let gridDiv;
     let gridApi;
 
@@ -40,6 +42,10 @@
                     sortable: false,
                     filter: true,
                     editable: true,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: {
+                        values: CUE_TYPES.keys(),
+                    },
                 },
                 {
                     headerName: "Actions",
