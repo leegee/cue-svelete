@@ -17,17 +17,30 @@ const initialState = {
 export const timeline = writable( initialState );
 
 export function addCue ( start, end, content ) {
-    timeline.update( cues => ( {
-        ...cues,
-        cues: [
-            ...cues.cues,
+    timeline.update( allCues => {
+        // Create a new array of cues with the new cue added and sorted by start time
+        const newCues = [
+            ...allCues.cues,
             {
                 start: Number( start ),
                 end: Number( end ),
                 content: String( content )
             }
-        ]
-    } ) );
+        ].sort( ( a, b ) => a.start - b.start );
 
-    localStorage.setItem( 'timeline', JSON.stringify( timeline ) );
+        return {
+            ...allCues,
+            cues: newCues,
+        };
+    } );
+
+    localStorage.setItem( 'timeline', JSON.stringify( getCues() ) );
+}
+
+export function getCues () {
+    let cues;
+    timeline.subscribe( value => {
+        cues = value.cues;
+    } );
+    return cues;
 }
