@@ -44,7 +44,7 @@
                     editable: true,
                     cellEditor: "agSelectCellEditor",
                     cellEditorParams: {
-                        values: CUE_TYPES.keys(),
+                        values: Object.keys(CUE_TYPES),
                     },
                 },
                 {
