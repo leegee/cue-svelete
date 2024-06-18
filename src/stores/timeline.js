@@ -7,8 +7,9 @@ import { writable } from 'svelte/store';
 
 const initialState = {
     cues: [
-        { start: 1, end: 3, content: 'Cue from 1s to 3s' },
-        { start: 4, end: 15, content: 'Cue from 4s to 15s' },
+        // test data until there is a loader
+        { start: 1, end: 3, content: '' },
+        { start: 4, end: 15, content: '' },
     ],
     currentCueIndex: -1,
 };
@@ -20,7 +21,11 @@ export function addCue ( start, end, content ) {
         ...cues,
         cues: [
             ...cues.cues,
-            { start, end, content }
+            {
+                start: Number( start ),
+                end: Number( end ),
+                content: String( content )
+            }
         ]
     } ) );
 

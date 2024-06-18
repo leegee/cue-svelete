@@ -8,18 +8,17 @@
 
     const toggleRecording = () => {
         if (!isRecording) {
-            // Start recording
             startTime = $currentTime;
             console.log("Recording start time:", startTime);
         } else {
-            // End recording
             endTime = $currentTime;
             console.log("Recording end time:", endTime);
 
             addCue(
                 startTime,
                 endTime,
-                `Cue from ${startTime.toFixed(2)}s to ${endTime.toFixed(2)}s`,
+                "",
+                // `Cue from ${startTime.toFixed(2)}s to ${endTime.toFixed(2)}s`,
             );
         }
 
