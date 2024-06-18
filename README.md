@@ -13,11 +13,15 @@ Personal project: a first try at Svelte, setting and playing cue markers.
     * Sorrow
     * Love
     * Mystery
-* Export as SRT and MIDI
+* Export as SRT 
+* Export MIDI but for timings
 
 Next: 
 
-* Load SRT and MIDI
+* Load SRT
+* Load MIDI text?
+* Load Vimeo
+* Load Rumble?
 
 Then:
 
