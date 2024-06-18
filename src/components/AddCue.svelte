@@ -1,7 +1,6 @@
 <script>
-    import { writable } from "svelte/store";
     import { currentTime } from "../stores/current-time";
-    import { timeline, addCue } from "../stores/timeline";
+    import { addCue } from "../stores/timeline";
 
     let isRecording = false;
     let startTime = null;

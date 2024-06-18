@@ -1,10 +1,12 @@
 <script>
+    import "video.js/dist/video-js.css";
+
     import { onMount, onDestroy } from "svelte";
+    import videojs from "video.js";
+    import "videojs-youtube";
     import { currentTime } from "../stores/current-time";
     import { timeline } from "../stores/timeline";
-    import videojs from "video.js";
-    import "video.js/dist/video-js.css";
-    import "videojs-youtube";
+    import { playbackState } from "../stores/playback.js";
 
     export let videoUrl;
 
@@ -12,7 +14,12 @@
     let player;
     let videoUrlSubscription;
 
-    const initializePlayer = (url) => {
+    const { subscribe } = playbackState;
+
+    function initializePlayer(url) {
+        if (!url) {
+            throw new Error("No url");
+        }
         if (!videoElement) {
             console.error("No videoElement");
             return;
@@ -27,32 +34,50 @@
             sources: [{ type: "video/youtube", src: url }],
         });
 
-        player.on("timeupdate", () => {
-            const currentTimeValue = player.currentTime();
-            currentTime.set(currentTimeValue);
-
-            timeline.update((state) => {
-                const { cues, currentCueIndex: currentEventIndex } = state;
-                let nextCueIndex = currentEventIndex + 1;
-
-                while (
-                    nextCueIndex < cues.length &&
-                    currentTimeValue >= cues[nextCueIndex].end
-                ) {
-                    nextCueIndex++;
-                }
-
-                if (
-                    nextCueIndex < cues.length &&
-                    currentTimeValue >= cues[nextCueIndex].start
-                ) {
-                    return { ...state, currentCueIndex: nextCueIndex };
-                }
-
-                return state;
-            });
+        player.on("play", () => {
+            playbackState.set({ playing: true });
         });
-    };
+
+        player.on("pause", () => {
+            playbackState.set({ playing: false });
+        });
+
+        player.on("timeupdate", onTimeUpdate);
+
+        subscribe((state) => {
+            if (state.playing) {
+                player.play();
+            } else {
+                player.pause();
+            }
+        });
+    }
+
+    function onTimeUpdate() {
+        const currentTimeValue = player.currentTime();
+        currentTime.set(currentTimeValue);
+
+        timeline.update((state) => {
+            const { cues, currentCueIndex: currentEventIndex } = state;
+            let nextCueIndex = currentEventIndex + 1;
+
+            while (
+                nextCueIndex < cues.length &&
+                currentTimeValue >= cues[nextCueIndex].end
+            ) {
+                nextCueIndex++;
+            }
+
+            if (
+                nextCueIndex < cues.length &&
+                currentTimeValue >= cues[nextCueIndex].start
+            ) {
+                return { ...state, currentCueIndex: nextCueIndex };
+            }
+
+            return state;
+        });
+    }
 
     onMount(() => {
         videoUrlSubscription = videoUrl.subscribe(($videoUrl) => {
@@ -73,11 +98,11 @@
 <div data-vjs-player>
     <!-- svelte-ignore a11y-media-has-caption -->
     <video
-        bind:this={videoElement}
         class="video-js vjs-default-skin"
-        controls
         width="640"
         height="256"
+        controls
+        bind:this={videoElement}
     ></video>
 </div>
 

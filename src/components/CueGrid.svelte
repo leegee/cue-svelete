@@ -8,8 +8,10 @@
 
     import { timeline } from "../stores/timeline";
     import { currentTime } from "../stores/current-time";
+    import { playbackState } from "../stores/playback.js";
 
     let gridDiv;
+    let gridApi;
 
     const setPlayheadPosition = (time) => {
         currentTime.set(time);
@@ -45,6 +47,8 @@
                 },
             ],
             onCellValueChanged: onCellValueChangedHandler,
+            onCellEditingStarted: pauseVideo,
+            onCellClicked: pauseVideo,
             rowData: [],
             defaultColDef: {
                 flex: 1,
@@ -55,7 +59,7 @@
             paginationPageSize: 10,
         };
 
-        const gridApi = createGrid(gridDiv, gridOptions);
+        gridApi = createGrid(gridDiv, gridOptions);
 
         // Update grid rows when store changes
         const unsubscribeFromTimeline = timeline.subscribe((state) => {
@@ -70,8 +74,15 @@
         };
     });
 
+    // Pause the video when cell editing starts
+    function pauseVideo() {
+        console.log("cell clicked, shall pause");
+        playbackState.set({ playing: false });
+    }
+
     // Revert any change if the start and end are invalid
     function onCellValueChangedHandler(params) {
+        console.log(params);
         let revert = false;
         if (params.data.start >= params.data.end) {
             alert("The start value must be smaller than the end value");

@@ -17,7 +17,9 @@
   <h1>Vite + Svelte</h1>
   {#if !$videoUrl}
     <div>
+      <!-- svelte-ignore a11y-autofocus -->
       <input
+        autofocus
         type="text"
         placeholder="Enter YouTube URL"
         bind:value={pendingUrl}
