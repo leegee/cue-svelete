@@ -2,7 +2,8 @@
     import { hasCurrentCue, timeline } from "../stores/timeline";
     import VideoPlayer from "../components/Video.svelte";
     import Grid from "../components/CueGrid.svelte";
-    import SaveSRT from "../components/saveSRT.svelte";
+    import LoadSRT from "../components/LoadSRT.svelte";
+    import SaveSRT from "../components/SaveSRT.svelte";
     import TimeDisplay from "../components/TimeDisplay.svelte";
     import AddCue from "../components/AddCue.svelte";
 
@@ -25,6 +26,7 @@
 <Grid />
 <p>
     <SaveSRT />
+    <LoadSRT />
 </p>
 
 <style>

@@ -121,6 +121,13 @@ export function addCue ( start, end, content ) {
     storeLocally();
 }
 
+export function setCues ( cues ) {
+    timeline.update( () => ( {
+        cues,
+        currentCueIndex: 0,
+    } ) );
+}
+
 export function setCurrentCue ( currentTimeValue ) {
     currentTime.set( currentTimeValue );
 
