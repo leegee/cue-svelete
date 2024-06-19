@@ -1,6 +1,6 @@
 # `cue-svelte`
 
-Personal project: a first try at Svelte, setting and playing cue markers.
+Personal project, work in progress: a first try at Svelte, setting and playing cue markers.
 
 1. Enter a YoUTube URL
 1. Optionally upload an SRT subtitle file
