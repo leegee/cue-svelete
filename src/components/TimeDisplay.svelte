@@ -26,8 +26,7 @@
 <style>
     #time-container {
         margin-left: 1em;
-        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-            "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        font-family: "Courier New", Courier, monospace;
         font-size: x-large;
         opacity: 50%;
     }
