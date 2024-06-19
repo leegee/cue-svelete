@@ -6,8 +6,8 @@ test('Recording button adds cues to timeline', async ({ page }) => {
     // Wait for the page and components to load
     await page.waitForSelector('#cue-app');
 
+    // Load a test PooTube video that has no ads
     await page.locator('input[id="user-video-url"]').fill('https://www.youtube.com/watch?v=_gDJHxydwBc');
-
     await page.click('button[id="load-video-url"]');
 
     // Click the recording button twice (start and stop recording)
