@@ -7,8 +7,6 @@
     import { currentTime } from "../stores/current-time";
     import { timeline } from "../stores/timeline";
     import { playbackState } from "../stores/playback.js";
-    import TimeDisplay from "./TimeDisplay.svelte";
-    import AddCue from "./AddCue.svelte";
 
     export let videoUrl;
 
@@ -77,8 +75,6 @@
                 return { ...state, currentCueIndex: nextCueIndex };
             }
 
-            console.log(currentTimeValue, $timeline.currentCueIndex);
-
             return state;
         });
     }
@@ -109,26 +105,3 @@
         bind:this={videoElement}
     ></video>
 </div>
-
-<p id="controls-container">
-    <AddCue />
-    <TimeDisplay />
-</p>
-
-{#if $timeline.currentCueIndex > -1}
-    <div id="current-cue-container">
-        <p>{$timeline.cues[$timeline.currentCueIndex].content}</p>
-    </div>
-{/if}
-
-<style>
-    #controls-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-
-    #current-cue-container {
-        min-height: 1rem;
-    }
-</style>
