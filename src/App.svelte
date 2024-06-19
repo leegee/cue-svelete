@@ -1,8 +1,6 @@
 <script>
   import { writable } from "svelte/store";
-  import VideoPlayer from "./components/Video.svelte";
-  import Grid from "./components/CueGrid.svelte";
-  import SaveSRT from "./components/saveSRT.svelte";
+  import CueInputView from "./views/CueInputView.svelte";
 
   const videoUrl = writable("");
 
@@ -29,11 +27,7 @@
   {/if}
 
   {#if $videoUrl}
-    <VideoPlayer {videoUrl} />
-    <Grid />
-    <p>
-      <SaveSRT />
-    </p>
+    <CueInputView {videoUrl} />
   {/if}
 </main>
 
