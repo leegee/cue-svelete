@@ -3,7 +3,6 @@
   import VideoPlayer from "./components/Video.svelte";
   import Grid from "./components/CueGrid.svelte";
   import SaveSRT from "./components/saveSRT.svelte";
-  import SaveMIDI from "./components/saveMIDI.svelte";
 
   const videoUrl = writable("");
 
@@ -34,7 +33,6 @@
     <Grid />
     <p>
       <SaveSRT />
-      <SaveMIDI />
     </p>
   {/if}
 </main>
