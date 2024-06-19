@@ -12,10 +12,10 @@
         timeline,
         NO_CURRENT_CUE_INDEX,
     } from "../stores/timeline";
-    import { playbackState } from "../stores/playback.js";
-
-    import { CUE_TYPES } from "../cue-types";
+    import { isPlaying } from "../stores/is-playing.js";
+    import { newTime } from "../stores/new-time";
     import { formatTime } from "../lib/format-time";
+    import { CUE_TYPES } from "../cue-types";
 
     let gridDiv: HTMLElement;
     let gridApi: GridApi;
@@ -23,6 +23,26 @@
     onMount(() => {
         const gridOptions = {
             columnDefs: [
+                {
+                    headerName: "",
+                    cellStyle: {
+                        width: "1em",
+                    },
+                    flex: 0,
+                    cellRenderer: (params) => {
+                        const eButton = document.createElement("button");
+                        eButton.innerHTML = "▶";
+                        eButton.className = "cell-ctrl";
+                        eButton.addEventListener("click", () => {
+                            console.log("btn clicked");
+                            newTime.update((state) => {
+                                state = params.data.start;
+                                return state;
+                            });
+                        });
+                        return eButton;
+                    },
+                },
                 {
                     headerName: "Start",
                     field: "start",
@@ -61,9 +81,6 @@
                         values: Object.keys(CUE_TYPES),
                     },
                 },
-                {
-                    headerName: "Actions",
-                },
             ],
             onCellValueChanged: onCellValueChangedHandler,
             onCellEditingStarted: pauseVideo,
@@ -85,12 +102,8 @@
         const unsubscribeFromTimeline = timeline.subscribe((state) => {
             gridApi.setGridOption("rowData", state.cues);
             gridApi.redrawRows();
-            console.log(
-                "currentCueIndex",
-                state.currentCueIndex,
-                $timeline.currentCueIndex,
-            );
             ensureRowVisible(state.currentCueIndex);
+            console.log("timeline subscriber cuegrid ran an update", state);
         });
 
         return () => {
@@ -104,7 +117,7 @@
     // Pause the video when cell editing starts
     function pauseVideo() {
         console.log("cell clicked, shall pause");
-        playbackState.set({ playing: false });
+        $isPlaying = false;
     }
 
     // Revert any change if the start and end are invalid

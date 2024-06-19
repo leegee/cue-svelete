@@ -83,3 +83,10 @@ button:focus-visible {
   color: white !important;
   font-weight: 700;
 }
+
+.cell-ctrl {
+  border: 0;
+  padding: 0;
+  color: white;
+  background: none;
+}

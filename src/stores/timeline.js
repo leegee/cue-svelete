@@ -129,8 +129,6 @@ export function setCues ( cues ) {
 }
 
 export function setCurrentCue ( currentTimeValue ) {
-    currentTime.set( currentTimeValue );
-
     timeline.update( ( state ) => {
         const { cues, currentCueIndex } = state;
         let nextCueIndex = currentCueIndex + 1;
@@ -154,7 +152,7 @@ export function setCurrentCue ( currentTimeValue ) {
             }
         }
 
-        console.log( "currentCueIndex", currentCueIndex );
+        // In Svelte, I belive this means 'no change':
         return state;
     } );
 }

@@ -1,18 +1,12 @@
 <script>
-    import { playbackState } from "../../stores/playback";
-
-    $: playing = $playbackState.playing;
+    import { isPlaying } from "../../stores/is-playing";
 
     function togglePlay() {
-        playbackState.update((state) => ({
-            ...state,
-            playing: !state.playing,
-        }));
+        isPlaying.update((state) => !state);
     }
 
-    $: buttonLabel = () => (playing ? "Pause" : "Play");
-
-    $: buttonClass = () => (playing ? "paused" : "playing");
+    $: buttonLabel = () => ($isPlaying ? "Pause" : "Play");
+    $: buttonClass = () => ($isPlaying ? "paused" : "playing");
 </script>
 
 <button id="toggle-play" class={buttonClass()} on:click={togglePlay}>

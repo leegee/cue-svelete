@@ -5,15 +5,15 @@
     import videojs from "video.js";
     import "videojs-youtube";
     import { setCurrentCue } from "../stores/timeline";
-    import { playbackState } from "../stores/playback.js";
+    import { newTime } from "../stores/new-time";
+    import { isPlaying } from "../stores/is-playing.js";
+    import { currentTime } from "../stores/current-time";
 
     export let videoUrl;
 
     let videoElement;
     let player;
     let videoUrlSubscription;
-
-    const { subscribe } = playbackState;
 
     function initializePlayer(url) {
         if (!url) {
@@ -33,28 +33,38 @@
             sources: [{ type: "video/youtube", src: url }],
         });
 
-        player.on("play", () => {
-            playbackState.set({ playing: true });
+        player.on("play", () => ($isPlaying = true));
+
+        player.on("pause", () => ($isPlaying = false));
+
+        // Keep the timeline.currentCueIndex synchronized with the video
+        // Videojs fires timeupdate at regular intervals, regardless on whether or not the time has been updated.
+        let lastTimeSeen = 0;
+        player.on("timeupdate", () => {
+            const playerCurrentTime = player.currentTime();
+            if (playerCurrentTime !== lastTimeSeen) {
+                console.log(
+                    "player time changed, call for update of currentCue",
+                    playerCurrentTime,
+                );
+                $currentTime = playerCurrentTime;
+                setCurrentCue(playerCurrentTime);
+                lastTimeSeen = playerCurrentTime;
+            }
         });
 
-        player.on("pause", () => {
-            playbackState.set({ playing: false });
-        });
-
-        player.on("timeupdate", onTimeUpdate);
-
-        subscribe((state) => {
-            if (state.playing) {
+        isPlaying.subscribe((state) => {
+            if (state) {
                 player.play();
             } else {
                 player.pause();
             }
         });
-    }
 
-    // Keep the timeline.currentCueIndex synchronized with the video
-    function onTimeUpdate() {
-        setCurrentCue(player.currentTime());
+        newTime.subscribe((newTimeValue) => {
+            $currentTime = newTimeValue;
+            player.currentTime(newTimeValue);
+        });
     }
 
     onMount(() => {
