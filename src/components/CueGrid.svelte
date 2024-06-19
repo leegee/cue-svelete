@@ -22,12 +22,21 @@
 
     onMount(() => {
         const gridOptions = {
+            defaultColDef: {
+                editable: true,
+                filter: true,
+                flex: 1,
+                minWidth: 150,
+                resizable: true,
+                sortable: false,
+            },
             columnDefs: [
                 {
                     headerName: "",
                     cellStyle: {
                         width: "1em",
                     },
+                    editable: false,
                     flex: 0,
                     cellRenderer: (params) => {
                         const eButton = document.createElement("button");
@@ -46,9 +55,6 @@
                 {
                     headerName: "Start",
                     field: "start",
-                    sortable: false,
-                    filter: true,
-                    editable: true,
                     valueFormatter: (params) => formatTime(params.value),
                     cellStyle: {
                         textAlign: "center",
@@ -59,9 +65,6 @@
                 {
                     headerName: "End",
                     field: "end",
-                    sortable: false,
-                    filter: true,
-                    editable: true,
                     valueFormatter: (params) => formatTime(params.value),
                     cellStyle: {
                         textAlign: "center",
@@ -72,10 +75,7 @@
                 {
                     headerName: "Content",
                     field: "content",
-                    sortable: false,
-                    filter: true,
                     cellStyle: { textAlign: "left" },
-                    editable: true,
                     cellEditor: "agSelectCellEditor",
                     cellEditorParams: {
                         values: Object.keys(CUE_TYPES),
@@ -85,15 +85,9 @@
             onCellValueChanged: onCellValueChangedHandler,
             onCellEditingStarted: pauseVideo,
             onCellClicked: pauseVideo,
-            defaultColDef: {
-                flex: 1,
-                minWidth: 150,
-                resizable: true,
-            },
             rowData: [],
             getRowClass: getRowClassHandler,
             pagination: false,
-            paginationPageSize: 10,
         };
 
         gridApi = createGrid(gridDiv, gridOptions);
