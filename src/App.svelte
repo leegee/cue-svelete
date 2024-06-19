@@ -17,12 +17,13 @@
     <div>
       <!-- svelte-ignore a11y-autofocus -->
       <input
+        id="user-video-url"
         autofocus
         type="text"
         placeholder="Enter YouTube URL"
         bind:value={pendingUrl}
       />
-      <button on:click={handleUrlSubmit}>Load Video</button>
+      <button id="load-video-url" on:click={handleUrlSubmit}>Load Video</button>
     </div>
   {/if}
 
