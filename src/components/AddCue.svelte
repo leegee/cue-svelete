@@ -30,12 +30,12 @@
     $: buttonClass = () => (isRecording ? "recording" : "waiting");
 </script>
 
-<button id="cue-toggle" class={buttonClass()} on:click={toggleRecording}
+<button id="cue-toggle-button" class={buttonClass()} on:click={toggleRecording}
     >{buttonLabel()}</button
 >
 
 <style>
-    #cue-toggle {
+    #cue-toggle-button {
         color: white;
     }
     .waiting {

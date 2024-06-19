@@ -7,9 +7,9 @@ test('Recording button adds cues to timeline', async ({ page }) => {
     await page.waitForSelector('#cue-app');
 
     // Click the recording button twice (start and stop recording)
-    await page.click('#cue-toggle'); // Start recording
+    await page.click('#cue-toggle-button'); // Start recording
     await page.waitForTimeout(2000); // Simulate 2 seconds of video playback
-    await page.click('#cue-toggle'); // Stop recording
+    await page.click('#cue-toggle-button'); // Stop recording
 
     // Wait for any asynchronous updates to the timeline
     await page.waitForTimeout(500);
