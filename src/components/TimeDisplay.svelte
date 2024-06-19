@@ -15,7 +15,7 @@
             (milliseconds < 100 ? (milliseconds < 10 ? "00" : "0") : "") +
             milliseconds;
 
-        return `${hoursString}::${minutesString}::${secondsString},${millisecondsString}`;
+        return `${hoursString}:${minutesString}:${secondsString},${millisecondsString}`;
     }
 </script>
 
