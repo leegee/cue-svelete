@@ -15,6 +15,7 @@
     import { playbackState } from "../stores/playback.js";
 
     import { CUE_TYPES } from "../cue-types";
+    import { formatTime } from "../lib/format-time";
 
     let gridDiv: HTMLElement;
     let gridApi: GridApi;
@@ -28,6 +29,12 @@
                     sortable: false,
                     filter: true,
                     editable: true,
+                    valueFormatter: (params) => formatTime(params.value),
+                    cellStyle: {
+                        textAlign: "center",
+                        width: "10em",
+                        fontFamily: "monospace",
+                    },
                 },
                 {
                     headerName: "End",
@@ -35,12 +42,19 @@
                     sortable: false,
                     filter: true,
                     editable: true,
+                    valueFormatter: (params) => formatTime(params.value),
+                    cellStyle: {
+                        textAlign: "center",
+                        width: "10em",
+                        fontFamily: "monospace",
+                    },
                 },
                 {
                     headerName: "Content",
                     field: "content",
                     sortable: false,
                     filter: true,
+                    cellStyle: { textAlign: "left" },
                     editable: true,
                     cellEditor: "agSelectCellEditor",
                     cellEditorParams: {
@@ -49,7 +63,6 @@
                 },
                 {
                     headerName: "Actions",
-                    field: "actions",
                 },
             ],
             onCellValueChanged: onCellValueChangedHandler,
