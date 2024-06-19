@@ -15,10 +15,6 @@
     let gridDiv;
     let gridApi;
 
-    const setPlayheadPosition = (time) => {
-        currentTime.set(time);
-    };
-
     onMount(() => {
         const gridOptions = {
             columnDefs: [
