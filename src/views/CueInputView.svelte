@@ -1,5 +1,5 @@
 <script>
-    import { timeline } from "../stores/timeline";
+    import { hasCurrentCue, timeline } from "../stores/timeline";
     import VideoPlayer from "../components/Video.svelte";
     import Grid from "../components/CueGrid.svelte";
     import SaveSRT from "../components/saveSRT.svelte";
@@ -16,7 +16,7 @@
     <TimeDisplay />
 </p>
 
-{#if $timeline.currentCueIndex > -1}
+{#if hasCurrentCue()}
     <div id="current-cue-container">
         <p>{$timeline.cues[$timeline.currentCueIndex].content}</p>
     </div>

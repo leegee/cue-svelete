@@ -4,8 +4,7 @@
     import { onMount, onDestroy } from "svelte";
     import videojs from "video.js";
     import "videojs-youtube";
-    import { currentTime } from "../stores/current-time";
-    import { timeline } from "../stores/timeline";
+    import { setCurrentCue } from "../stores/timeline";
     import { playbackState } from "../stores/playback.js";
 
     export let videoUrl;
@@ -53,30 +52,9 @@
         });
     }
 
+    // Keep the timeline.currentCueIndex synchronized with the video
     function onTimeUpdate() {
-        const currentTimeValue = player.currentTime();
-        currentTime.set(currentTimeValue);
-
-        timeline.update((state) => {
-            const { cues, currentCueIndex: currentEventIndex } = state;
-            let nextCueIndex = currentEventIndex + 1;
-
-            while (
-                nextCueIndex < cues.length &&
-                currentTimeValue >= cues[nextCueIndex].end
-            ) {
-                nextCueIndex++;
-            }
-
-            if (
-                nextCueIndex < cues.length &&
-                currentTimeValue >= cues[nextCueIndex].start
-            ) {
-                return { ...state, currentCueIndex: nextCueIndex };
-            }
-
-            return state;
-        });
+        setCurrentCue(player.currentTime());
     }
 
     onMount(() => {

@@ -7,7 +7,11 @@
     import { createGrid } from "ag-grid-community";
     import type { GridApi } from "ag-grid-community";
 
-    import { updateCue, timeline } from "../stores/timeline";
+    import {
+        updateCue,
+        timeline,
+        NO_CURRENT_CUE_INDEX,
+    } from "../stores/timeline";
     import { playbackState } from "../stores/playback.js";
 
     import { CUE_TYPES } from "../cue-types";
@@ -116,7 +120,7 @@
     }
 
     function ensureRowVisible(index) {
-        if (index > -1) {
+        if (index > NO_CURRENT_CUE_INDEX) {
             gridApi.ensureIndexVisible(index, "middle");
         }
     }

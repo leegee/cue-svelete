@@ -3,7 +3,11 @@
     Contains the cues and the index of the current cue displayed
  */
 
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
+
+import { currentTime } from "../stores/current-time";
+
+export const NO_CURRENT_CUE_INDEX = -1;
 
 const initialState = {
     cues: [
@@ -24,10 +28,22 @@ const initialState = {
         { start: 134, end: 135, content: 'love' },
         { start: 144, end: 145, content: 'love' },
     ],
-    currentCueIndex: -1,
+    currentCueIndex: NO_CURRENT_CUE_INDEX,
 };
 
 export const timeline = writable( initialState );
+
+export function hasCurrentCue () {
+    return get( timeline ).currentCueIndex !== NO_CURRENT_CUE_INDEX;
+}
+
+export function getCues () {
+    let cues;
+    timeline.subscribe( value => {
+        cues = value.cues;
+    } );
+    return cues;
+}
 
 function badValues ( start, end, content ) {
     if ( start >= end ) {
@@ -105,10 +121,33 @@ export function addCue ( start, end, content ) {
     storeLocally();
 }
 
-export function getCues () {
-    let cues;
-    timeline.subscribe( value => {
-        cues = value.cues;
+export function setCurrentCue ( currentTimeValue ) {
+    currentTime.set( currentTimeValue );
+
+    timeline.update( ( state ) => {
+        const { cues, currentCueIndex } = state;
+        let nextCueIndex = currentCueIndex + 1;
+
+        while (
+            nextCueIndex < cues.length &&
+            currentTimeValue >= cues[ nextCueIndex ].end
+        ) {
+            nextCueIndex++;
+        }
+
+        if ( nextCueIndex < cues.length ) {
+            if (
+                currentTimeValue >= cues[ currentCueIndex ].end &&
+                currentTimeValue >= cues[ nextCueIndex ].start &&
+                currentTimeValue < cues[ nextCueIndex ].end
+            ) {
+                return { ...state, currentCueIndex: nextCueIndex };
+            }
+            if ( currentTimeValue > cues[ currentCueIndex ].end ) {
+                return { ...state, currentCueIndex: NO_CURRENT_CUE_INDEX };
+            }
+        }
+
+        return state;
     } );
-    return cues;
 }
