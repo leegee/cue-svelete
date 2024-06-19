@@ -53,4 +53,4 @@
     }
 </script>
 
-<button on:click={downloadSRT}>Subtitles</button>
+<button on:click={downloadSRT}>⇩ Subtitles</button>
