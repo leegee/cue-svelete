@@ -144,17 +144,17 @@ export function setCurrentCue ( currentTimeValue ) {
 
         if ( nextCueIndex < cues.length ) {
             if (
-                currentTimeValue >= cues[ currentCueIndex ].end &&
-                currentTimeValue >= cues[ nextCueIndex ].start &&
-                currentTimeValue < cues[ nextCueIndex ].end
+                ( currentCueIndex !== NO_CURRENT_CUE_INDEX && currentTimeValue >= cues[ currentCueIndex ].end ) ||
+                ( currentTimeValue >= cues[ nextCueIndex ].start && currentTimeValue < cues[ nextCueIndex ].end )
             ) {
                 return { ...state, currentCueIndex: nextCueIndex };
             }
-            if ( currentTimeValue > cues[ currentCueIndex ].end ) {
+            if ( currentCueIndex !== NO_CURRENT_CUE_INDEX && currentTimeValue > cues[ currentCueIndex ].end ) {
                 return { ...state, currentCueIndex: NO_CURRENT_CUE_INDEX };
             }
         }
 
+        console.log( "currentCueIndex", currentCueIndex );
         return state;
     } );
 }
