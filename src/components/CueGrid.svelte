@@ -5,15 +5,15 @@
 
     import { onMount } from "svelte";
     import { createGrid } from "ag-grid-community";
+    import type { GridApi } from "ag-grid-community";
 
     import { updateCue, timeline } from "../stores/timeline";
-    import { currentTime } from "../stores/current-time";
     import { playbackState } from "../stores/playback.js";
 
     import { CUE_TYPES } from "../cue-types";
 
-    let gridDiv;
-    let gridApi;
+    let gridDiv: HTMLElement;
+    let gridApi: GridApi;
 
     onMount(() => {
         const gridOptions = {
@@ -51,13 +51,14 @@
             onCellValueChanged: onCellValueChangedHandler,
             onCellEditingStarted: pauseVideo,
             onCellClicked: pauseVideo,
-            rowData: [],
             defaultColDef: {
                 flex: 1,
                 minWidth: 150,
                 resizable: true,
             },
-            pagination: true,
+            rowData: [],
+            getRowClass: getRowClassHandler,
+            pagination: false,
             paginationPageSize: 10,
         };
 
@@ -66,6 +67,13 @@
         // Update grid rows when store changes
         const unsubscribeFromTimeline = timeline.subscribe((state) => {
             gridApi.setGridOption("rowData", state.cues);
+            gridApi.redrawRows();
+            console.log(
+                "currentCueIndex",
+                state.currentCueIndex,
+                $timeline.currentCueIndex,
+            );
+            ensureRowVisible(state.currentCueIndex);
         });
 
         return () => {
@@ -100,10 +108,22 @@
             });
         }
     }
+
+    function getRowClassHandler(params) {
+        return params.node.rowIndex === $timeline.currentCueIndex
+            ? "highlight-row"
+            : "";
+    }
+
+    function ensureRowVisible(index) {
+        if (index > -1) {
+            gridApi.ensureIndexVisible(index, "middle");
+        }
+    }
 </script>
 
-<div
+<section
     class="ag-theme-alpine-dark"
     style="height: 500px; width: 100%;"
     bind:this={gridDiv}
-></div>
+/>

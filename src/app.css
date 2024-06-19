@@ -83,3 +83,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* this was getting stripped */
+.highlight-row {
+  background-color: #8B8000 !important;
+  color: white !important;
+  font-weight: 700;
+}
