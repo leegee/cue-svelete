@@ -5,8 +5,6 @@
 
 import { get, writable } from 'svelte/store';
 
-import { currentTime } from "../stores/current-time";
-
 export const NO_CURRENT_CUE_INDEX = -1;
 
 const initialState = {
