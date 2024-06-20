@@ -1,17 +1,10 @@
 # `cue-svelte`
 
-Personal project, work in progress: a first try at Svelte, setting and playing cue markers.
+This little app is an aid to spotting cues for film scores.
 
-1. Enter a YoUTube URL
-1. Optionally upload an SRT subtitle file
-1. Play the video
-1. Click a button at the start of a cue
-1. Click it again at the end of a cue
-1. Select cue type
-1. Edidt cues
-1. Export as SRT 
+The user supplies a video, and as it plays, can click to add cue markers.
 
-I had coded exporting the cues as a MIDI track, only to realise tempo changes make it unusable.
+These can then be exported as an SRT subittle file, or as a MIDI file with text.
 
 ## To Do
 
