@@ -14,4 +14,4 @@
     }
 </script>
 
-<button on:click={handleDownloadMIDI}>MIDI</button>
+<button on:click={handleDownloadMIDI}>⇩ MIDI</button>

@@ -2,6 +2,7 @@
     import VideoPlayer from "../components/Video.svelte";
     import Grid from "../components/CueGrid.svelte";
     import LoadSRT from "../components/LoadSRT.svelte";
+    import SaveMIDI from "../components/SaveMIDI.svelte";
     import SaveSRT from "../components/SaveSRT.svelte";
     import TimeDisplay from "../components/TimeDisplay.svelte";
     import AddCue from "../components/AddCue.svelte";
@@ -18,8 +19,10 @@
 
 <Grid />
 <p>
-    <SaveSRT />
     <LoadSRT />
+    |
+    <SaveSRT />
+    <SaveMIDI />
 </p>
 
 <style>
