@@ -18,7 +18,9 @@
 </script>
 
 <section id="get-url">
-    <h1>Spotting Cues</h1>
+    <header>
+        <h1>Spotting Cues</h1>
+    </header>
     <!-- svelte-ignore a11y-autofocus -->
     <input
         id="user-video-url"
@@ -28,6 +30,10 @@
         bind:value={pendingUrl}
     />
     <button id="load-video-url" on:click={handleUrlSubmit}>Load Video</button>
+    <footer>
+        You can skip this step by putting the video URL after a <q>?</q> in this
+        page's URL.
+    </footer>
 </section>
 
 <style>
@@ -51,5 +57,11 @@
 
     button {
         margin-top: 1em;
+    }
+
+    footer {
+        position: absolute;
+        bottom: 10vh;
+        opacity: 50%;
     }
 </style>

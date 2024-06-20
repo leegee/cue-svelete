@@ -21,4 +21,5 @@ I had coded exporting the cues as a MIDI track, only to realise tempo changes ma
 
 ## YT Test Video
 
-https://www.youtube.com/watch?v=_gDJHxydwBc
+http://localhost:5173/?https://www.youtube.com/watch?v=_gDJHxydwBc
+
