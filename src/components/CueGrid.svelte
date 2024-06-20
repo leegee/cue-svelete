@@ -149,7 +149,15 @@
 </script>
 
 <section
+    id="cue-grid"
     class="ag-theme-alpine-dark"
-    style="height: 500px; width: 100%;"
+    style="height: 100%; width: 100%;"
     bind:this={gridDiv}
 />
+
+<style>
+    #cue-grid {
+        padding: 1em 2em;
+        width: 100%;
+    }
+</style>

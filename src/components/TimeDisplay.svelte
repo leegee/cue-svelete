@@ -25,7 +25,7 @@
 
 <style>
     #time-container {
-        margin-left: 1em;
+        margin: 1em;
         font-family: "Courier New", Courier, monospace;
         font-size: x-large;
         opacity: 50%;
