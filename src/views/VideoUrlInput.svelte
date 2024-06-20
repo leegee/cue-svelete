@@ -1,12 +1,20 @@
 <!-- ./views/VideoUrlInput.svelte -->
 <script>
-    import { videoUrl } from "../stores/video-url";
+    import { onMount } from "svelte";
+    import {
+        initializeVideoUrlFromDocument,
+        videoUrl,
+    } from "../stores/video-url";
 
-    let pendingUrl = "https://www.youtube.com/watch?v=_gDJHxydwBc";
+    let pendingUrl = "";
 
     const handleUrlSubmit = () => {
         videoUrl.set(pendingUrl);
     };
+
+    onMount(() => {
+        initializeVideoUrlFromDocument();
+    });
 </script>
 
 <section id="get-url">
