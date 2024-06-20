@@ -4,7 +4,7 @@
 
   const videoUrl = writable("");
 
-  let pendingUrl = "";
+  let pendingUrl = "https://www.youtube.com/watch?v=_gDJHxydwBc";
 
   const handleUrlSubmit = () => {
     videoUrl.set(pendingUrl);

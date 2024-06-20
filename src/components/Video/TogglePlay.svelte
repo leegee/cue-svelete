@@ -2,7 +2,7 @@
     import { isPlaying } from "../../stores/is-playing";
 
     function togglePlay() {
-        isPlaying.update((state) => !state);
+        $isPlaying = !$isPlaying;
     }
 
     $: buttonLabel = () => ($isPlaying ? "Pause" : "Play");
