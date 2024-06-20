@@ -1,5 +1,4 @@
 <script>
-    import { hasCurrentCue, timeline } from "../stores/timeline";
     import VideoPlayer from "../components/Video.svelte";
     import Grid from "../components/CueGrid.svelte";
     import LoadSRT from "../components/LoadSRT.svelte";
@@ -17,12 +16,6 @@
     <TimeDisplay />
 </p>
 
-{#if hasCurrentCue()}
-    <div id="current-cue-container">
-        <p>{$timeline.cues[$timeline.currentCueIndex].content}</p>
-    </div>
-{/if}
-
 <Grid />
 <p>
     <SaveSRT />
@@ -34,9 +27,5 @@
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-    }
-
-    #current-cue-container {
-        min-height: 1rem;
     }
 </style>

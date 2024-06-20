@@ -37,6 +37,14 @@ export function hasCurrentCue () {
     return get( timeline ).currentCueIndex !== NO_CURRENT_CUE_INDEX;
 }
 
+export function getCurrentCue () {
+    if ( hasCurrentCue() ) {
+        return get( timeline ).cues[
+            get( timeline ).currentCueIndex
+        ];
+    }
+}
+
 export function getCues () {
     const value = get( timeline );
     return value.cues;
