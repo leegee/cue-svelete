@@ -38,11 +38,8 @@ export function hasCurrentCue () {
 }
 
 export function getCues () {
-    let cues;
-    timeline.subscribe( value => {
-        cues = value.cues;
-    } );
-    return cues;
+    const value = get( timeline );
+    return value.cues;
 }
 
 function badValues ( start, end, content ) {
@@ -126,6 +123,12 @@ export function setCues ( cues ) {
         cues,
         currentCueIndex: 0,
     } ) );
+}
+
+export function setCurrentCueIndex ( index ) {
+    timeline.update( ( state ) => {
+        return { ...state, currentCueIndex: index };
+    } );
 }
 
 export function setCurrentCue ( currentTimeValue ) {

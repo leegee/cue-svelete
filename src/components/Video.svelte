@@ -13,7 +13,6 @@
 
     let videoElement;
     let player;
-    let videoUrlSubscription;
 
     function initializePlayer(url) {
         if (!url) {
@@ -53,7 +52,7 @@
             }
         });
 
-        isPlaying.subscribe((state) => {
+        const unsubscribeFromIsPlaying = isPlaying.subscribe((state) => {
             if (state) {
                 player.play();
             } else {
@@ -61,25 +60,31 @@
             }
         });
 
-        newTime.subscribe((newTimeValue) => {
+        const unsubscribeFromNewTime = newTime.subscribe((newTimeValue) => {
             $currentTime = newTimeValue;
             player.currentTime(newTimeValue);
         });
+
+        return () => {
+            unsubscribeFromIsPlaying();
+            unsubscribeFromNewTime();
+        };
     }
 
     onMount(() => {
-        videoUrlSubscription = videoUrl.subscribe(($videoUrl) => {
+        const videoUrlSubscription = videoUrl.subscribe(($videoUrl) => {
             if ($videoUrl && videoElement) {
                 initializePlayer($videoUrl);
             }
         });
-    });
 
-    onDestroy(() => {
-        if (player) {
-            player.dispose();
-        }
-        videoUrlSubscription.unsubscribe();
+        return () => {
+            videoUrlSubscription();
+            if (player) {
+                player.dispose();
+            }
+            videoUrlSubscription.unsubscribe();
+        };
     });
 </script>
 

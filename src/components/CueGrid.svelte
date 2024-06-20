@@ -11,6 +11,7 @@
         updateCue,
         timeline,
         NO_CURRENT_CUE_INDEX,
+        setCurrentCueIndex,
     } from "../stores/timeline";
     import { isPlaying } from "../stores/is-playing.js";
     import { newTime } from "../stores/new-time";
@@ -33,9 +34,9 @@
             columnDefs: [
                 {
                     headerName: "",
-                    cellStyle: {
-                        width: "1em",
-                    },
+                    minWidth: 36,
+                    width: 36,
+                    maxWidth: 36,
                     editable: false,
                     flex: 0,
                     cellRenderer: (params) => {
@@ -48,6 +49,7 @@
                                 state = params.data.start;
                                 return state;
                             });
+                            setCurrentCueIndex(params.rowIndex);
                         });
                         return eButton;
                     },
