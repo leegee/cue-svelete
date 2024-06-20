@@ -13,8 +13,8 @@
 
 <main id="cue-app">
   {#if !$videoUrl}
-    <h1>Spotting Cues</h1>
-    <div>
+    <section id="get-url">
+      <h1>Spotting Cues</h1>
       <!-- svelte-ignore a11y-autofocus -->
       <input
         id="user-video-url"
@@ -24,7 +24,7 @@
         bind:value={pendingUrl}
       />
       <button id="load-video-url" on:click={handleUrlSubmit}>Load Video</button>
-    </div>
+    </section>
   {/if}
 
   {#if $videoUrl}
@@ -40,6 +40,13 @@
     padding: 20px;
   }
 
+  #get-url {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 33vh;
+  }
+
   h1 {
     font-size: 300%;
     margin-bottom: 1em;
@@ -49,5 +56,9 @@
   button {
     font-size: large;
     padding: 1em;
+  }
+
+  button {
+    margin-top: 1em;
   }
 </style>
