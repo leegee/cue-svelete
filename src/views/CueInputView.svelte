@@ -57,7 +57,9 @@
         position: absolute;
         bottom: 0;
         height: 32pt;
-        width: calc(100% - 4em);
+        width: auto;
+        left: 50%;
+        transform: translate(-50%, 0);
         display: flex;
         align-items: center;
         justify-content: space-evenly;
