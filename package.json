@@ -1,5 +1,9 @@
 {
   "name": "cue-svelte-app",
+  "homepage": "https://leegee.github.io/cue-svelete",
+  "repository": {
+    "url": "https://github.com/leegee/cue-svelete"
+  },
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,19 +11,25 @@
     "dev": "vite",
     "build": "vite build",
     "test": "playwright test",
-    "preview": "vite preview"
+    "prepreview": "bun build",
+    "preview": "vite preview",
+    "predeploy": "bun run build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@playwright/test": "^1.44.1",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
+    "gh-pages": "^6.1.1",
     "playwright": "^1.44.1",
     "svelte": "^4.2.12",
     "vite": "^5.2.0"
   },
   "dependencies": {
     "@ag-grid-community/core": "^31.3.2",
+    "@tonejs/midi": "^2.0.28",
     "ag-grid-community": "^31.3.2",
     "ag-grid-svelte": "^0.3.0",
+    "midi-writer-js": "^3.1.1",
     "video.js": "^8.12.0",
     "videojs-youtube": "^3.0.1"
   }
