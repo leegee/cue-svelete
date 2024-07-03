@@ -1,6 +1,6 @@
 # `cue-svelte`
 
-This little app is an aid to spotting cues for film scores.
+[This little app](https://leegee.github.io/cue-svelete/) is an aid to spotting cues for film scores.
 
 The user supplies a video, and as it plays, can click to add cue markers.
 
