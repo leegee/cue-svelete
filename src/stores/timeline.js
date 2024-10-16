@@ -10,21 +10,10 @@ export const NO_CURRENT_CUE_INDEX = -1;
 const initialState = {
     cues: [
         // test data until there is a loader
-        { start: 1, end: 3, content: 'action' },
-        { start: 4, end: 15, content: 'love' },
-        { start: 24, end: 25, content: 'love' },
-        { start: 34, end: 35, content: 'love' },
-        { start: 44, end: 45, content: 'love' },
-        { start: 54, end: 55, content: 'love' },
-        { start: 64, end: 65, content: 'love' },
-        { start: 74, end: 71, content: 'love' },
-        { start: 84, end: 85, content: 'love' },
-        { start: 94, end: 95, content: 'love' },
-        { start: 104, end: 105, content: 'love' },
-        { start: 114, end: 115, content: 'love' },
-        { start: 124, end: 125, content: 'love' },
-        { start: 134, end: 135, content: 'love' },
-        { start: 144, end: 145, content: 'love' },
+        { start: 1, end: 3, content: 'one to three' },
+        { start: 4, end: 15, content: 'four to 15' },
+        { start: 24, end: 25, content: '24 to 25' },
+        { start: 100, end: 104, content: '100 to 104' },
     ],
     currentCueIndex: NO_CURRENT_CUE_INDEX,
 };

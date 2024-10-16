@@ -1,89 +1,79 @@
-// midi.js
-import { getCues } from '../stores/timeline.js';
+// @ts-nocheck
 
-export function generateMIDIFile () {
-    const cues = getCues();
-    if ( !cues ) {
-        console.warn( "No cues defined" );
-        return;
-    }
-    const lyrics = cues.map( cue => ( {
-        text: cue.content,
-        duration: ( cue.end - cue.start ) * 480, // Convert seconds to ticks (assuming 480 ticks per quarter note)
-    } ) );
+import { writeMidi } from 'midi-file';
 
-    const header = new Uint8Array( [
-        0x4D, 0x54, 0x68, 0x64, // Header chunk type
-        0x00, 0x00, 0x00, 0x06, // Header chunk length
-        0x00, 0x01, // Format type (1)
-        0x00, 0x01, // Number of tracks (only one, for lyrics)
-        0x00, 0x78, // Division (ticks per quarter note)
-    ] );
-
-    const trackHeader = new Uint8Array( [
-        0x4D, 0x54, 0x72, 0x6B, // Track chunk type
-        0x00, 0x00, 0x00, 0x00, // Placeholder for track chunk length
-    ] );
-
-    const events = generateLyricEvents( lyrics );
-    const trackLength = events.length + 4; // +4 for the track header length
-
-    trackHeader[ 4 ] = ( trackLength >> 24 ) & 0xFF;
-    trackHeader[ 5 ] = ( trackLength >> 16 ) & 0xFF;
-    trackHeader[ 6 ] = ( trackLength >> 8 ) & 0xFF;
-    trackHeader[ 7 ] = trackLength & 0xFF;
-
-    const headerBlob = new Blob( [ header ], { type: 'audio/midi' } );
-    const trackHeaderBlob = new Blob( [ trackHeader ], { type: 'audio/midi' } );
-    const eventsBlob = new Blob( [ events ], { type: 'audio/midi' } );
-
-    const blobs = [ headerBlob, trackHeaderBlob, eventsBlob ];
-    const midiBlob = new Blob( blobs, { type: 'audio/midi' } );
-
-    const url = URL.createObjectURL( midiBlob );
-    return url;
+function createDataUrlFromBytes ( bytes, mimeType ) {
+    const base64String = btoa( String.fromCharCode( ...bytes ) );
+    return `data:${ mimeType };base64,${ base64String }`;
 }
 
-function generateLyricEvents ( lyrics ) {
-    const events = [];
+function createMetaEvent ( type, text, deltaTime ) {
+    return {
+        deltaTime,
+        meta: true,
+        type: 'text', // This will be dynamically adjusted below
+        subtype: type, // 'text', 'lyric', or 'cuePoint'
+        text
+    };
+}
 
-    let deltaTime = 0;
-    lyrics.forEach( lyric => {
-        const textBytes = stringToBytes( lyric.text );
+// Function to generate a MIDI file from cues
+export function generateMIDIFile ( cues ) {
+    const header = {
+        format: 1, // MIDI format type 1 (multiple tracks)
+        numTracks: 1,
+        ticksPerBeat: 120 // 120 ticks per quarter note
+    };
 
-        const eventLength = textBytes.length + 1;
-        const lengthBytes = encodeVariableLength( eventLength );
+    const track = [];
 
-        // MIDI event for lyric
-        events.push( 0x00 ); // Delta time (var-length)
-        events.push( 0xFF ); // Meta event marker
-        events.push( 0x05 ); // Lyric event type
-        events.push( lengthBytes.length, ...lengthBytes ); // Length of the lyric text
-        events.push( ...textBytes ); // The lyric text in bytes
-
-        deltaTime += lyric.duration; // Adjust delta time based on the duration of the lyric
+    // Add a tempo meta-event (optional, adjust as necessary)
+    track.push( {
+        deltaTime: 0,
+        meta: true,
+        type: 'setTempo',
+        microsecondsPerBeat: 500000 // 120 BPM (500,000 microseconds per beat)
     } );
 
-    return new Uint8Array( events );
-}
+    let lastTicks = 0;
 
-function stringToBytes ( text ) {
-    const bytes = [];
-    for ( let i = 0; i < text.length; i++ ) {
-        bytes.push( text.charCodeAt( i ) );
-    }
-    return bytes;
-}
+    // Iterate over cues to add lyrics, cue points, and text
+    cues.forEach( cue => {
+        const { start, end, content, cuePoint } = cue;
 
-function encodeVariableLength ( value ) {
-    const buffer = [];
-    do {
-        let byte = value & 0x7F;
-        value >>>= 7;
-        if ( value !== 0 ) {
-            byte |= 0x80;
+        // Convert start time from seconds to ticks
+        const startTicks = start * 120;
+        const deltaTicks = startTicks - lastTicks;
+        lastTicks = startTicks;
+
+        // Add lyrics
+        if ( content ) {
+            track.push( createMetaEvent( 'lyric', content, deltaTicks ) );
         }
-        buffer.push( byte );
-    } while ( value !== 0 );
-    return buffer.reverse();
+
+        // Add cue point
+        if ( cuePoint ) {
+            track.push( createMetaEvent( 'cuePoint', cuePoint, deltaTicks ) );
+        }
+    } );
+
+    // Add track end event
+    track.push( {
+        deltaTime: 0,
+        meta: true,
+        type: 'endOfTrack'
+    } );
+
+    // Create a MIDI file with a single track
+    const midiFile = {
+        header,
+        tracks: [ track ]
+    };
+
+    // Convert the file to binary MIDI data
+    const midiBytes = writeMidi( midiFile );
+
+    // Return the data URL
+    const mimeType = 'audio/midi';
+    return createDataUrlFromBytes( midiBytes, mimeType );
 }

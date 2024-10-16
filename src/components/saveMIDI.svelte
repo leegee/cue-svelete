@@ -1,8 +1,10 @@
 <script>
     import { generateMIDIFile } from "../lib/midi.js";
+    import { getCues } from "../stores/timeline.js";
 
     function handleDownloadMIDI() {
-        const midiUrl = generateMIDIFile();
+        const cues = getCues();
+        const midiUrl = generateMIDIFile(cues);
         const a = document.createElement("a");
         a.style.display = "none";
         a.href = midiUrl;

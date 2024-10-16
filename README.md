@@ -11,6 +11,7 @@ the problem is that Cubase seems extrememly fussy about what it will read.
 
 ## Installation
 
+    # npm install --legacy-peer-deps
     bun install
     bun run dev
 
