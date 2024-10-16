@@ -28,8 +28,8 @@
   <footer>
     <LoadSRT />
     <SaveSRT />
-    <SaveMIDI />
-    <SaveMusicXML />
+    <!-- <SaveMIDI />
+    <SaveMusicXML /> -->
   </footer>
 </section>
 

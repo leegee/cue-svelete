@@ -1,41 +1,45 @@
+// @ts-nocheck
+
 export function generateMusicXML ( cues ) {
-    const xmlParts = [];
+    const xmlParts = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<score-partwise version="3.1">',
+        '    <part id="P1">'
+    ];
 
-    xmlParts.push( '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' );
-    xmlParts.push( '<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">' );
-    xmlParts.push( '<score-partwise version="3.1">' );
-    xmlParts.push( '<part-list><score-part id="P1"><part-name>Music</part-name></score-part></part-list>' );
-    xmlParts.push( '<part id="P1">' );
+    let measureNumber = 1;
+    let measureContent = '';
 
-    const divisionsPerQuarterNote = 4;
-    let currentMeasure = 1;
+    cues.forEach( ( cue ) => {
+        // Create a measure for each cue
+        measureContent += `        <measure number="${ measureNumber }">\n`;
+        measureContent += `            <attributes>\n`;
+        measureContent += `                <divisions>1</divisions>\n`; // Assume a division of 1 for simplicity
+        measureContent += `                <time>\n`;
+        measureContent += `                    <beats>${ cue.end - cue.start + 1 }</beats>\n`;
+        measureContent += `                    <beat-type>4</beat-type>\n`;
+        measureContent += `                </time>\n`;
+        measureContent += `                <clef>\n`;
+        measureContent += `                    <sign>G</sign>\n`;
+        measureContent += `                    <line>2</line>\n`;
+        measureContent += `                </clef>\n`;
+        measureContent += `            </attributes>\n`;
 
-    cues.forEach( cue => {
-        const startDiv = secondsToDivisions( cue.start, divisionsPerQuarterNote );
-        const endDiv = secondsToDivisions( cue.end, divisionsPerQuarterNote );
-        let durationDiv = endDiv - startDiv;
+        // Optionally, add cue content as lyrics or comments
+        measureContent += `            <note>\n`;
+        measureContent += `                <rest/>\n`; // Represent cue as a rest for simplicity
+        measureContent += `                <lyric>\n`;
+        measureContent += `                    <text>${ cue.content }</text>\n`;
+        measureContent += `                </lyric>\n`;
+        measureContent += `            </note>\n`;
 
-        xmlParts.push( `<measure number="${ currentMeasure }">` );
-        xmlParts.push( '<attributes><divisions>4</divisions><key><fifths>0</fifths><mode>major</mode></key><time><beats>4</beats><beat-type>4</beat-type></time></attributes>' );
-        xmlParts.push( '<note>' );
-        xmlParts.push( '<pitch><step>C</step><octave>4</octave></pitch>' );
-        xmlParts.push( `<duration>${ durationDiv }</duration>` );
-        xmlParts.push( '<type>quarter</type>' );
-        xmlParts.push( `<lyric><text>${ cue.content }</text></lyric>` );
-        xmlParts.push( '</note>' );
-        xmlParts.push( '</measure>' );
-        currentMeasure++;
+        measureContent += `        </measure>\n`;
+        measureNumber++;
     } );
 
-    xmlParts.pop();
-
-    // Close part and score
-    xmlParts.push( '</part>' );
+    xmlParts.push( measureContent );
+    xmlParts.push( '    </part>' );
     xmlParts.push( '</score-partwise>' );
 
     return xmlParts.join( '\n' );
-}
-
-function secondsToDivisions ( seconds, divisionsPerQuarterNote ) {
-    return Math.round( seconds * divisionsPerQuarterNote );
 }

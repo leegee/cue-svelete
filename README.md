@@ -6,8 +6,9 @@ The user supplies a video, and as it plays, can click to add cue markers.
 
 These can then be exported as an SRT subittle file.
 
-Currently playing with writing a MIDI and/or MusicXML file of markers and/or lyrics,
-the problem is that Cubase seems extrememly fussy about what it will read.
+Code is included, but not used, to render MIDI, but Cubase can't use MIDI lyrics despite 20 years of user requests.
+
+Code is also included to write MusicXML, but output is not yet validated.
 
 ## Installation
 
